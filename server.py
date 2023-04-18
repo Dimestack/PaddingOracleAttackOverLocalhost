@@ -36,7 +36,7 @@ def _decrypt(data):
 def is_padding_ok(data):
     return _decrypt(data) is not None
 
-if __name__ == '__main__'::
+if __name__ == '__main__':
     # cleartext = b'"Don\'t allow your mind to tell your heart what to do. The mind gives up easily."'
     cleartext = b'For things to change, you have to change.'
     ciphertext = encrypt(cleartext)
@@ -47,15 +47,15 @@ if __name__ == '__main__'::
     serv.bind(('0.0.0.0', 8080))
     serv.listen(5)
     while True:
-    conn, addr = serv.accept()
-    from_client = ''
-    while True:
-        data = conn.recv(4096)
-        if not data: break
-        from_client += data.decode('utf8')
-        if (is_padding_ok(bytes.fromhex(from_client))):
-            conn.send(b"Mac Error")
-        else:
-            conn.send(b"Padding Error")
-    conn.close()
+        conn, addr = serv.accept()
+        from_client = ''
+        while True:
+            data = conn.recv(4096)
+            if not data: break
+            from_client += data.decode('utf8')
+            if (is_padding_ok(bytes.fromhex(from_client))):
+                conn.send(b"Padding Okay")
+            else:
+                conn.send(b"Padding Error")
+        conn.close()
     print ('client disconnected and shutdown')
